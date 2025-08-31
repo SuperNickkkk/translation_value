@@ -1,0 +1,141 @@
+{
+  "translation_models": {
+    "ernie-4.5-0.3b": {
+      "name": "文心一言ERNIE-4.5-Turbo翻译模型",
+      "api_key": "0a0ab842bf64ffcb21b7c13edc09f9e9783ca3a7",
+      "base_url": "https://aistudio.baidu.com/llm/lmapi/v3",
+      "model_id": "ernie-4.5-turbo-128k-preview",
+      "temperature": 0.8,
+      "max_tokens": 8000,
+      "top_p": 0.8,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": false,
+      "stream": true
+    },
+    "local-qwen3-0.6b": {
+      "name": "本地Qwen3-0.6B",
+      "api_key": "local",
+      "base_url": "http://127.0.0.1:8084",
+      "model_id": "qwen3-0.6b",
+      "temperature": 0.7,
+      "max_tokens": 256,
+      "top_p": 0.9,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": false,
+      "stream": false
+    },
+    "qwen3-8b": {
+      "name": "通义千问Qwen3-8B",
+      "api_key": "0a0ab842bf64ffcb21b7c13edc09f9e9783ca3a7",
+      "base_url": "https://aistudio.baidu.com/llm/lmapi/v3",
+      "model_id": "qwen3-8b",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "top_p": 0.8,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": true,
+      "stream": true
+    },
+    "local-gemma-3-270m": {
+      "name": "本地Gemma-3-270M模型",
+      "api_key": "local",
+      "base_url": "http://127.0.0.1:8081",
+      "model_id": "gemma-3-270m",
+      "temperature": 0.7,
+      "max_tokens": 256,
+      "top_p": 0.9,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": false,
+      "stream": false
+    },
+    "local-qwen2.5-0.5b-instruct": {
+      "name": "本地Qwen2.5-0.5B-Instruct",
+      "api_key": "local",
+      "base_url": "http://127.0.0.1:8082",
+      "model_id": "qwen2.5-0.5b-instruct",
+      "temperature": 0.7,
+      "max_tokens": 256,
+      "top_p": 0.9,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": false,
+      "stream": false
+    },
+    "local-ernie-4.5-0.3b-pt": {
+      "name": "本地ERNIE-4.5-0.3B-PT(MPS)",
+      "api_key": "local",
+      "base_url": "http://127.0.0.1:8083",
+      "model_id": "ernie-4.5-0.3b-pt",
+      "temperature": 0.4,
+      "max_tokens": 192,
+      "top_p": 0.9,
+      "frequency_penalty": 0,
+      "presence_penalty": 0,
+      "penalty_score": 1,
+      "enable_thinking": false,
+      "stream": false
+    }
+  },
+  "evaluation_model": {
+    "name": "文心一言ERNIE-4.5-Turbo评估模型",
+    "api_key": "0a0ab842bf64ffcb21b7c13edc09f9e9783ca3a7",
+    "base_url": "https://aistudio.baidu.com/llm/lmapi/v3",
+    "model_id": "ernie-4.5-turbo-128k-preview",
+    "temperature": 0.3,
+    "max_tokens": 12000,
+    "top_p": 0.8,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "penalty_score": 1,
+    "enable_thinking": false,
+    "stream": true
+  },
+  "batch_size": 10,
+  "evaluation_criteria": {
+    "accuracy": {
+      "name": "准确性",
+      "description": "翻译内容与原文意思的一致性",
+      "weight": 0.4,
+      "scale": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "fluency": {
+      "name": "流畅性",
+      "description": "译文的语言流畅程度和自然性",
+      "weight": 0.3,
+      "scale": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "terminology": {
+      "name": "专业术语",
+      "description": "航空维修专业术语的准确使用",
+      "weight": 0.3,
+      "scale": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  }
+}

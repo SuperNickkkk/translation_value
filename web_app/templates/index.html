@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞机维修手册英中翻译质量评估系统</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+        }
+
+        body {
+            background-color: var(--light-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-bottom: 1px solid #e2e8f0;
+            border-radius: 12px 12px 0 0 !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-running { background-color: #dbeafe; color: #1e40af; }
+        .status-completed { background-color: #d1fae5; color: #065f46; }
+        .status-failed { background-color: #fee2e2; color: #991b1b; }
+
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+        }
+
+        .progress-ring-circle {
+            stroke: #e2e8f0;
+            stroke-width: 4;
+            fill: transparent;
+            r: 26;
+            cx: 30;
+            cy: 30;
+        }
+
+        .progress-ring-progress {
+            stroke: var(--primary-color);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 163.36;
+            stroke-dashoffset: 163.36;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .model-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .model-card:hover {
+            border-color: var(--primary-color);
+            background-color: #f8fafc;
+        }
+
+        .model-card.selected {
+            border-color: var(--primary-color);
+            background-color: #eff6ff;
+        }
+
+        .model-card.configured {
+            border-color: var(--success-color);
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .score-excellent { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; }
+        .score-good { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; }
+        .score-average { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #9a3412; }
+        .score-poor { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #991b1b; }
+
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-color);
+            background-color: #f8fafc;
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background-color: #eff6ff;
+        }
+
+        #monitoring-panel {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 2px solid #e2e8f0;
+            max-height: 600px; /* 固定最大高度 */
+            overflow: hidden; /* 防止内容溢出 */
+        }
+
+        .log-window {
+            border: 1px solid #333;
+            border-radius: 5px;
+            height: 300px !important; /* 固定日志窗口高度 */
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .performance-window {
+            height: 300px; /* 性能窗口固定高度 */
+            overflow-y: auto;
+        }
+
+        .chart-container {
+            height: 120px !important; /* 图表容器固定高度 */
+            margin-bottom: 15px;
+        }
+
+        .resource-stats {
+            min-height: 80px; /* 资源统计固定高度 */
+        }
+
+        .log-entry {
+            margin-bottom: 2px;
+            font-size: 11px;
+        }
+
+        .log-time {
+            color: #888;
+        }
+
+        .log-level {
+            font-weight: bold;
+        }
+
+        .comparison-table {
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: none;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .comparison-table td {
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-plane me-2"></i>
+                飞机维修手册英中翻译质量评估系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    <i class="fas fa-cog me-1"></i>
+                    专业Web版本 v2.0
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- 左侧面板 - 模型配置和数据上传 -->
+            <div class="col-xl-4 col-lg-5 mb-4">
+                <!-- 模型配置卡片 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-robot me-2"></i>
+                            英中翻译模型配置
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="translation-models">
+                            {% for model in available_models %}
+                            <div class="model-card {% if model.configured %}configured{% endif %}" 
+                                 data-model="{{ model.key }}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ model.name }}</h6>
+                                        <small class="text-muted">{{ model.key }}</small>
+                                    </div>
+                                    <div>
+                                        {% if model.configured %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>已配置
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-exclamation-triangle me-1"></i>未配置
+                                        </span>
+                                        {% endif %}
+                                        <input type="checkbox" class="form-check-input ms-2 model-selector" 
+                                               value="{{ model.key }}" {% if model.configured %}{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modelConfigModal">
+                                <i class="fas fa-plus me-1"></i>添加/配置模型
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评估模型配置 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-brain me-2"></i>
+                            大模型质量评估配置
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="evaluation-model-status">
+                            {% if evaluation_model_configured %}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                评估模型已配置并就绪
+                            </div>
+                            {% else %}
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                评估模型未配置，无法进行质量评估
+                            </div>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#evalModelConfigModal">
+                            <i class="fas fa-cog me-1"></i>配置评估模型
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 数据上传 -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-upload me-2"></i>
+                            英文维修手册上传
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-zone" id="uploadZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                            <p class="mb-2">拖拽JSON文件到此处或点击选择文件</p>
+                            <small class="text-muted">支持包含英文维修手册文本的JSON格式文件</small>
+                            <input type="file" id="fileInput" class="d-none" accept=".json">
+                        </div>
+                        
+                        <div id="uploadStatus" class="mt-3" style="display: none;"></div>
+                        
+                        <!-- 数据量选择选项 -->
+                        <div class="mt-3" id="dataSelectionPanel" style="display: none;">
+                            <h6 class="mb-3"><i class="fas fa-sliders-h me-2"></i>测试数据配置</h6>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">选择模式</label>
+                                    <select class="form-select" id="selectionMode">
+                                        <option value="percentage">按百分比选择</option>
+                                        <option value="count">按数量选择</option>
+                                        <option value="all">使用全部数据</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6" id="valueInputGroup">
+                                    <label class="form-label" id="valueLabel">数据比例 (%)</label>
+                                    <input type="number" class="form-control" id="selectionValue" 
+                                           min="1" max="100" value="20" placeholder="请输入数值">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-2">
+                                <small class="text-muted" id="selectionHint">
+                                    将使用数据集中的20%数据进行评估测试
+                                </small>
+                            </div>
+                            
+                            <div class="mt-2" id="dataPreview" style="display: none;">
+                                <div class="alert alert-info py-2">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <span id="dataPreviewText"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <input type="text" class="form-control" id="taskName" 
+                                   placeholder="输入任务名称（可选）">
+                        </div>
+                        
+                        <!-- 模型测试和任务控制按钮 -->
+                        <div class="mt-3 d-grid gap-2">
+                            <button class="btn btn-outline-info" id="testModelsBtn" disabled>
+                                <i class="fas fa-vial me-2"></i>测试选中模型
+                            </button>
+                            
+                            <div class="row g-2" id="taskControlButtons" style="display: none;">
+                                <div class="col-4">
+                                    <button class="btn btn-warning w-100" id="pauseTaskBtn">
+                                        <i class="fas fa-pause me-1"></i>暂停
+                                    </button>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-success w-100" id="resumeTaskBtn">
+                                        <i class="fas fa-play me-1"></i>恢复
+                                    </button>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-danger w-100" id="terminateTaskBtn">
+                                        <i class="fas fa-stop me-1"></i>终止
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" id="startEvaluationBtn" disabled>
+                                <i class="fas fa-play me-2"></i>开始英中翻译质量评估
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧面板 - 评估结果展示 -->
+            <div class="col-xl-8 col-lg-7">
+                <!-- 当前任务状态 -->
+                <div class="card mb-4" id="currentTaskCard" style="display: none;">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-tasks me-2"></i>
+                            当前评估任务
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <svg class="progress-ring">
+                                    <circle class="progress-ring-circle"></circle>
+                                    <circle class="progress-ring-progress" id="progressCircle"></circle>
+                                </svg>
+                            </div>
+                            <div class="col">
+                                <h6 class="mb-1" id="currentTaskName">任务名称</h6>
+                                <div class="d-flex align-items-center">
+                                    <span class="status-badge me-2" id="currentTaskStatus">运行中</span>
+                                    <span class="text-muted" id="currentTaskProgress">0%</span>
+                                </div>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评估结果展示 -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-line me-2"></i>
+                            英中翻译质量评估结果
+                        </h5>
+                        <div>
+                            <button class="btn btn-outline-secondary btn-sm" id="refreshResultsBtn">
+                                <i class="fas fa-sync-alt me-1"></i>刷新
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="resultsContent">
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                                <p>暂无评估结果</p>
+                                <small>请先上传数据并开始评估</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 详细结果表格 -->
+                <div class="card" id="detailedResultsCard" style="display: none;">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-table me-2"></i>
+                            英中翻译详细结果对比
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover comparison-table" id="detailedResultsTable">
+                                <thead>
+                                    <tr>
+                                        <th>英文原文</th>
+                                        <th>参考中文译文</th>
+                                        <th>翻译模型</th>
+                                        <th>模型中文译文</th>
+                                        <th>准确性评分</th>
+                                        <th>流畅性评分</th>
+                                        <th>术语准确性</th>
+                                        <th>综合评分</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最近任务 -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-history me-2"></i>
+                            最近的评估任务
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>任务名称</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        <th>完成时间</th>
+                                        <th>翻译对数量</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentTasksTable">
+                                    {% for task in recent_tasks %}
+                                    <tr>
+                                        <td>{{ task.name }}</td>
+                                        <td>
+                                            <span class="status-badge status-{{ task.status }}">
+                                                {{ task.status }}
+                                            </span>
+                                        </td>
+                                        <td>{{ task.created_at.strftime('%Y-%m-%d %H:%M') if task.created_at else '-' }}</td>
+                                        <td>{{ task.completed_at.strftime('%Y-%m-%d %H:%M') if task.completed_at else '-' }}</td>
+                                        <td>{{ task.total_pairs or 0 }}</td>
+                                        <td>
+                                            <button class="btn btn-outline-primary btn-sm view-task-btn" 
+                                                    data-task-id="{{ task.id }}">
+                                                <i class="fas fa-eye me-1"></i>查看
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 监控面板区域 -->
+        <div class="row mt-4" id="monitoring-panel">
+            <div class="col-12">
+                <h3 class="text-center mb-4">
+                    <i class="fas fa-desktop me-2"></i>
+                    实时监控面板
+                    <small class="text-muted">- 翻译过程日志与性能监控</small>
+                </h3>
+            </div>
+            <!-- 实时日志窗口 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-terminal me-2"></i>实时翻译日志
+                            <div class="float-end">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="clearLogs()">
+                                    <i class="fas fa-trash"></i> 清空
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" onclick="toggleLogAutoScroll()" id="log-auto-scroll-btn">
+                                    <i class="fas fa-pause"></i> 暂停滚动
+                                </button>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="log-window" class="log-window" style="height: 400px; overflow-y: auto; background: #1e1e1e; color: #fff; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px;">
+                            <div class="text-muted">等待日志信息...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 性能监控窗口 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-line me-2"></i>性能监控
+                            <div class="float-end">
+                                <span class="badge bg-success" id="performance-status">监控中</span>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="card-body performance-window">
+                        <!-- 系统资源使用 -->
+                        <div class="row mb-3 resource-stats">
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <div class="h4 mb-0" id="cpu-usage">0%</div>
+                                    <small class="text-muted">CPU使用率</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <div class="h4 mb-0" id="memory-usage">0%</div>
+                                    <small class="text-muted">内存使用率</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <div class="h4 mb-0" id="local-model-status">离线</div>
+                                    <small class="text-muted">本地模型</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 翻译速度对比 -->
+                        <div class="mb-3 chart-container">
+                            <h6>翻译速度对比 (tokens/秒)</h6>
+                            <div style="height: 90px;">
+                                <canvas id="speed-comparison-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 实时性能图表 -->
+                        <div class="chart-container">
+                            <h6>系统资源趋势</h6>
+                            <div style="height: 90px;">
+                                <canvas id="performance-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模型配置模态框 -->
+    <div class="modal fade" id="modelConfigModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-robot me-2"></i>
+                        配置翻译模型
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="modelConfigForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">模型类型</label>
+                                <select class="form-select" id="modelKey" required>
+                                    <option value="">选择模型类型</option>
+                                    <option value="ernie-4.5-0.3b">文心一言 ERNIE-4.5-0.3B</option>
+                                    <option value="qwen3-8b">通义千问 Qwen3-8B</option>
+                                    <option value="gemini-270m">Gemini 270M</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">模型名称</label>
+                                <input type="text" class="form-control" id="modelName" required>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label class="form-label">API密钥</label>
+                                <input type="password" class="form-control" id="apiKey" required>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">API基础URL</label>
+                                <input type="url" class="form-control" id="baseUrl" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">模型ID</label>
+                                <input type="text" class="form-control" id="modelId" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="saveModelBtn">
+                        <i class="fas fa-save me-1"></i>保存配置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评估模型配置模态框 -->
+    <div class="modal fade" id="evalModelConfigModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-brain me-2"></i>
+                        配置评估模型
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="evalModelConfigForm">
+                        <div class="mb-3">
+                            <label class="form-label">模型名称</label>
+                            <input type="text" class="form-control" id="evalModelName" 
+                                   value="文心一言ERNIE-4.5-Turbo评估模型" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">API密钥</label>
+                            <input type="password" class="form-control" id="evalApiKey" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">API基础URL</label>
+                            <input type="url" class="form-control" id="evalBaseUrl" 
+                                   value="https://aistudio.baidu.com/llm/lmapi/v3" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">模型ID</label>
+                            <input type="text" class="form-control" id="evalModelId" 
+                                   value="ernie-4.5-turbo-128k-preview" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="saveEvalModelBtn">
+                        <i class="fas fa-save me-1"></i>保存配置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模型测试结果模态框 -->
+    <div class="modal fade" id="testResultsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-vial me-2"></i>
+                        模型测试结果
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="testResultsContent">
+                        <!-- 示例文本 -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-file-text me-2"></i>测试文本</h6>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label text-muted">原文（英文）</label>
+                                            <div class="border p-2 rounded bg-light" id="testSourceText"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label text-muted">参考译文（中文）</label>
+                                            <div class="border p-2 rounded bg-light" id="testReferenceText"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 测试结果表格 -->
+                        <div>
+                            <h6><i class="fas fa-chart-bar me-2"></i>模型测试结果</h6>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>模型</th>
+                                            <th>状态</th>
+                                            <th>翻译结果</th>
+                                            <th>响应时间</th>
+                                            <th>质量状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="testResultsTable">
+                                        <!-- 动态填充测试结果 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="testLoadingSpinner" style="display: none;">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">测试中...</span>
+                            </div>
+                            <p class="mt-2">正在测试选中的模型，请稍候...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="retestModelsBtn">
+                        <i class="fas fa-redo me-1"></i>重新测试
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

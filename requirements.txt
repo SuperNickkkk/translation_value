@@ -1,0 +1,47 @@
+# 飞机维修翻译评估系统依赖包
+# 基础依赖
+requests>=2.31.0
+openai>=1.0.0
+
+# 数据处理和科学计算
+pandas>=1.5.0
+numpy>=1.21.0
+
+# 图表和可视化
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.0.0
+
+# 文件处理
+pathlib2>=2.3.0;python_version<"3.4"
+
+# 异步处理
+asyncio-throttle>=1.0.0
+
+# 配置和环境
+python-dotenv>=0.19.0
+
+# 日志和调试
+colorama>=0.4.4
+
+# Web框架依赖（如果需要Web版本）
+Flask>=2.3.0
+Flask-WTF>=1.1.0
+Flask-SQLAlchemy>=3.0.0
+Werkzeug>=2.3.0
+
+# 数据库
+SQLAlchemy>=1.4.0
+
+# 测试框架
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# 代码质量
+black>=22.0.0
+flake8>=5.0.0
+
+# 其他工具
+tqdm>=4.64.0
+rich>=12.0.0
+

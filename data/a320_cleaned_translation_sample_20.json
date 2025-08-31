@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "description": "A320飞机维修手册英中翻译评估数据（清理版）- 前20条示例",
+    "source": "A320双语翻译文档",
+    "language_pair": "en-zh",
+    "domain": "aviation_maintenance",
+    "aircraft_model": "A320",
+    "created_time": "2025-08-30 19:02:54",
+    "total_pairs": 20,
+    "notes": "示例文件：仅保留前20条，用于课堂提交与仓库展示"
+  },
+  "translation_pairs": [
+    {
+      "id": "a320_001",
+      "source_text": "06-00-00-00 CONF 00 - DIMENSIONS AND AREAS - DESCRIPTION AND OPERATION",
+      "reference_translation": "尺寸和区域 - 说明与操作",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "hard",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_002",
+      "source_text": "This chapter defines:",
+      "reference_translation": "本章定义：",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_003",
+      "source_text": "Dimensions and areas (Ref. ATA 06-10),",
+      "reference_translation": "尺寸和区域(Ref. ATA 06-10)，",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_004",
+      "source_text": "Zoning (Ref. ATA 06-20),",
+      "reference_translation": "区域划分(Ref. ATA 06-20)，",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_005",
+      "source_text": "Stations (Ref. ATA 06-30),",
+      "reference_translation": "站位(Ref. ATA 06-30)，",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_006",
+      "source_text": "Access Provisions (Ref. ATA 06-40).",
+      "reference_translation": "接近准备(Ref. ATA 06-40)。",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "access_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_007",
+      "source_text": "Dimensions and Areas",
+      "reference_translation": "尺寸和区域",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_008",
+      "source_text": "Span: 34100 mm (111.8767 ft.)",
+      "reference_translation": "翼展：34100 mm (111.8767 ft.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_009",
+      "source_text": "Area: 122.4 m2 (1317.50 ft.2)",
+      "reference_translation": "面积：122.4 m2 (1317.50 ft.2)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_010",
+      "source_text": "Sweep angle: (at 25% MAC) 24 Deg. 58'",
+      "reference_translation": "后掠角：（在25% MAC）24 Deg. 58’",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_011",
+      "source_text": "Stabilizers",
+      "reference_translation": "安定面",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_012",
+      "source_text": "Datum area of horizontal stabilizer:",
+      "reference_translation": "水平安定面基准区域：",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_013",
+      "source_text": "Datum area of vertical stabilizer:",
+      "reference_translation": "垂直安定面基准区域：",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_014",
+      "source_text": "Overall Length: 37573 mm (123.2711 ft.)",
+      "reference_translation": "总长： 37573 mm (123.2711 ft.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_015",
+      "source_text": "Datum Length: 31115 mm (102.0834 ft.)",
+      "reference_translation": "基准线长度：31115 mm (102.0834 ft.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_016",
+      "source_text": "Width: 3950 mm (155.5119 in.)",
+      "reference_translation": "宽度：3950 mm (155.5119 in.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_017",
+      "source_text": "Landing gear",
+      "reference_translation": "起落架",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "landing_gear",
+      "difficulty": "easy",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_018",
+      "source_text": "NLG wheel axis to MLG axis distance: 12640 mm (41.4698 ft.)",
+      "reference_translation": "NLG轮轴到MLG轴的距离：12640 mm (41.4698 ft.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_019",
+      "source_text": "L and R MLG center-to-center distance: 7590 mm (298.8191 in.)",
+      "reference_translation": "L和R MLG中心距：7590 mm (298.8191 in.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    },
+    {
+      "id": "a320_020",
+      "source_text": "Overall Length: 44507 mm (146.0204 ft.)",
+      "reference_translation": "总长： 44507 mm (146.0204 ft.)",
+      "source_lang": "en",
+      "target_lang": "zh",
+      "category": "general_maintenance",
+      "difficulty": "medium",
+      "context": "A320飞机维修手册"
+    }
+  ]
+}
+
+

@@ -1,0 +1,263 @@
+# ===== AVIATION TRANSLATION EVALUATION SYSTEM =====
+# 专用于航空维修翻译评估系统的 .gitignore 配置
+
+# ===== PYTHON BASIC =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== VIRTUAL ENVIRONMENTS =====
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# ===== IDE & EDITORS =====
+.vscode/
+.cursor/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+.ropeproject
+
+# ===== OS SPECIFIC FILES =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# Linux backup files
+*~
+
+# ===== MODEL WEIGHTS & AI MODELS =====
+# 本地大语言模型权重文件（体积巨大，不适合Git管理）
+gemma-3-270m/
+gemma-2-2b/
+qwen2.5-0.5b-instruct/
+qwen3-0.6b/
+ernie-4.5-0.3b-pt/
+ernie-4.5-0.3b-paddle/
+opus-mt-en-zh/
+dialogpt-small/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.model
+
+# 模型缓存
+~/.cache/huggingface/
+~/.cache/torch/
+.cache/
+*.cache
+cache/
+
+# ===== LOGS & RUNTIME FILES =====
+# 应用日志文件
+*.log
+*.out
+logs/
+web_app/logs/
+web_app/*.log
+translation_evaluation.log
+web_app_server.out
+real_gemma.log
+real_gemma_server.log
+qwen_server.log
+gemma_server.log
+model_server.log
+mock_server.log
+web_server.log
+web_server_fixed.log
+web_server_real.log
+gemma_3_270m_download.log
+model_download.log
+
+# ===== DATABASE & STORAGE =====
+# 数据库文件
+instance/
+web_app/instance/
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+
+# 上传和临时文件
+# 上传目录（仅保留示例清单，不跟踪实际数据）
+uploads/
+web_app/uploads/
+temp/
+translation_data/
+# 评估结果目录（避免提交大量结果文件）
+results/
+web_app/results/
+*.tmp
+*.temp
+*.backup
+
+# ===== ENVIRONMENT & CONFIG =====
+# 环境配置文件（包含敏感信息）
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+
+# API密钥和配置
+api_keys.txt
+secrets.json
+config.local.json
+translation_config.local.json
+
+# ===== TESTING & DEVELOPMENT =====
+# 测试文件和临时脚本
+test_*.py
+*_test.py
+tests/
+pytest_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ===== WEB APPLICATION SPECIFIC =====
+# Flask应用特定文件
+.webassets-cache
+local_settings.py
+
+# 静态文件构建
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== DOCUMENTATION BUILD =====
+docs/_build/
+/site
+
+# ===== TYPE CHECKING & LINTING =====
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+cython_debug/
+
+# ===== PACKAGE MANAGEMENT =====
+# PyInstaller
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# pipenv
+#Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# ===== BACKGROUND SERVICES =====
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# ===== DEPLOYMENT & DOCKER =====
+# Docker相关（如果未来使用）
+.dockerignore
+Dockerfile.local
+docker-compose.override.yml
+
+# ===== PROJECT SPECIFIC EXCLUDES =====
+# 数据文件夹（包含敏感的翻译数据）
+data/raw/
+data/private/
+data/processed/*.json
+data/*.json
+!data/a320_cleaned_translation_sample_20.json
+data/*.docx
+
+# 评估结果和报告（如果包含敏感信息）
+evaluation_results/
+private_reports/
+
+# Markdown 通用忽略（保留 README.md）
+*.md
+!README.md
+
+# 备份文件
+*.bak
+*_backup.*
+backup_*/
+
+# 临时下载的模型文件
+downloads/
+*.download
+*.downloading
+
+# 系统生成的配置文件
+*.pid
+*.lock
+.sass-cache/
+
+# ===== NOTES & DOCUMENTATION DRAFTS =====
+# 私人笔记和草稿
+NOTES.md
+TODO.md
+DRAFT_*.md
+*.draft
+*.notes
+
+# ===== 特别注意 =====
+# 以下文件应该保留在版本控制中：
+# - README.md
+# - requirements.txt  
+# - translation_config.json (模板配置)
+# - web_app/templates/
+# - web_app/static/
+# - 示例数据文件
+# - 部署指南和文档
+
+# 如果某些日志文件需要跟踪，可以使用：
+# !important.log
