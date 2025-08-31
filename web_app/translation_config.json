@@ -2,7 +2,7 @@
   "translation_models": {
     "ernie-4.5-0.3b": {
       "name": "文心一言ERNIE-4.5-Turbo翻译模型",
-      "api_key": "0a0ab842bf64ffcb21b7c13edc09f9e9783ca3a7",
+      "api_key": "0a0ab842bf64ffcb21b7c13edc09f9e9783ca3a7已更换key",
       "base_url": "https://aistudio.baidu.com/llm/lmapi/v3",
       "model_id": "ernie-4.5-turbo-128k-preview",
       "temperature": 0.8,
